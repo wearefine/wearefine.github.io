@@ -1,0 +1,41 @@
+//////////////////////////////
+// Project Specific Variables
+//////////////////////////////
+
+// Project Specific breakpoints
+$breakpoints: ();
+
+// Merge $fine_breakpoints and $breakpoints to use with bp() mixin
+$breakpoints: map-merge($fine-breakpoints, $breakpoints);
+
+$f-lato: 'Lato', $f-sans;
+
+$f-headline: $f-lato;
+$f-content: $f-lato;
+
+// Global
+$c-gray: #4B4643;
+$c-green: #bfc751;
+
+// Table
+$c-table-header-bg: #eaeaea;
+
+// Code
+$c-code-bg: #f7f7f7;
+$c-code-border: #ccc;
+$c-yellow: #d87c38;
+$c-red: #c92c2c;
+$c-blue: #54a0ab;
+$c-purple: #553b90;
+$c-orange: #eaa572;
+
+$c-code-comment: #a0a0a0;
+$c-code-punctuation: $c-gray;
+$c-code-property: $c-red;
+$c-code-integer: $c-orange;
+$c-code-string: #9da52f;
+$c-code-variable: $c-purple;
+$c-code-keyword: $c-blue;
+$c-code-regex: $c-orange;
+
+$base-space: 30px;

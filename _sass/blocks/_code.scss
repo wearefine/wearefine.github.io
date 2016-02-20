@@ -1,0 +1,29 @@
+code,
+pre {
+  color: $c-gray;
+  text-shadow: 0 1px $c-white;
+  font-family: $f-monospace;
+  direction: ltr;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: break-all;
+  word-wrap: break-word;
+  tab-size: 4;
+  hyphens: none;
+}
+
+pre  {
+  margin: 0 0 $base-space;
+}
+
+:not(pre) > code,
+pre {
+  background: $c-code-bg;
+  padding: 0.1em 0.2em;
+}
+
+.highlight {
+  border: 1px dashed $c-code-border;
+  line-height: 1.2;
+}

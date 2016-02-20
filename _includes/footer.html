@@ -1,0 +1,17 @@
+<footer class="main-footer">
+
+  <div class="wrapper">
+    <nav class="social-media">
+      {% include icon-github.html %}
+
+      {% if site.twitter_username %}
+        {% include icon-twitter.html username=site.twitter_username %}
+      {% endif %}
+    </nav>
+
+    <div class="conclusion">
+      Made <a href="{{ site.github.url }}" target="_blank">FINE</a> in Portland
+    </div>
+  </div>
+
+</footer>
