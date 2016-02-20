@@ -8,6 +8,10 @@
   padding: 60px 0 $base-space;
   color: $c-white;
 
+  &.-index {
+    padding: $base-space 0;
+  }
+
   p {
     font-weight: 700;
     font-size: remCalc(22px);

@@ -2,13 +2,21 @@
   max-width: 720px;
   width: 100%;
   margin: 0 auto;
+  padding: 0 20px;
+
+  @include bp(medium) {
+    padding-left: 0;
+    padding-right: 0;
+  }
 
   &.-main {
-    padding: $base-space 0;
+    padding-top: $base-space;
+    padding-bottom: $base-space;
   }
 
   &.-index {
-    padding: 100px 0;
+    padding-top: 100px;
+    padding-bottom: 100px;
   }
 }
 
