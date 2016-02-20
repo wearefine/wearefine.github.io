@@ -1,0 +1,27 @@
+---
+layout: default
+---
+
+<header class="main-header">
+  <div class="wrapper">
+    <div class="feature">
+      <a href="https://wearefine.com" title="FINE is a Portland digital agency" class="logo" target="_blank">
+        {% include icon-fine.svg %}
+      </a>
+
+      <p>{{ site.github.project_tagline }}</p>
+    </div>
+  </div>
+</header>
+
+<main class="wrapper -index">
+  <div class="project-wrapper">
+    {% for page in site.pages limit:10 %}
+      {% if page.title %}
+        <a href="{{ page.url }}" title="{{ page.title }}" class="project-block">
+          {% include {{ page.repository_slug }}.svg %}
+        </a>
+      {% endif %}
+    {% endfor %}
+  </div>
+</main>

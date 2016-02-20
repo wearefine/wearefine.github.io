@@ -26,3 +26,19 @@
     height: auto;
   }
 }
+
+.header-downloads {
+  margin-bottom: 20px;
+
+  .button {
+    background: none;
+    border: 1px solid $c-white;
+    border-radius: 5px;
+    margin: 0 5px;
+
+    &:hover {
+      background: $c-white;
+      color: $c-green;
+    }
+  }
+}

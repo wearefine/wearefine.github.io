@@ -1,0 +1,27 @@
+.project-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.project-block {
+  display: flex;
+  width: 48%;
+  align-items: center;
+  padding: 80px 20px;
+  background: $c-gray;
+  transition: background 0.3s ease-in-out;
+  justify-content: center;
+
+  path {
+    fill: $c-white;
+  }
+
+  &:hover {
+    background: darken($c-green, 8%);
+  }
+
+  img {
+    display: block;
+  }
+}
