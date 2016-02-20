@@ -6,12 +6,16 @@
 
 .project-block {
   display: flex;
-  width: 48%;
+  width: 100%;
   align-items: center;
   padding: 80px 20px;
   background: $c-gray;
   transition: background 0.3s ease-in-out;
   justify-content: center;
+
+  @include bp(medium) {
+    width: 48%;
+  }
 
   path {
     fill: $c-white;

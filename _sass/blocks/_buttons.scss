@@ -1,5 +1,5 @@
 .button {
-  display: inline-block;
+  display: block;
   padding: 14px 18px;
   border: 1px solid $c-gray;
   transition: background 0.3s;
@@ -8,7 +8,15 @@
   text-transform: uppercase;
   background: $c-gray;
 
+  @include bp(medium) {
+    display: inline-block;
+  }
+
   &:hover {
     background: lighten($c-gray, 14%);
+  }
+
+  + .button {
+    margin-top: 20px;
   }
 }
