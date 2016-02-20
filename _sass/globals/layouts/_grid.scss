@@ -15,8 +15,10 @@
   }
 
   &.-index {
-    padding-top: 100px;
-    padding-bottom: 100px;
+    @include bp(medium) {
+      padding-top: 100px;
+      padding-bottom: 100px;
+    }
   }
 }
 
