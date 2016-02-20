@@ -3,7 +3,7 @@ layout: page
 title: Fryr
 repository_slug: fryr
 js_download: true
-permalink: /fryr
+permalink: /fryr/
 tagline: Command window.location.hash like a cook in the kitchen
 ---
 
