@@ -13,3 +13,10 @@ twitter_username: wearefine
 
 # Build settings
 markdown: kramdown
+
+# TODO: add navigation collection to order pages and support subpages
+# collections:
+#   navigation:
+#     - fryr
+#     fae:
+#       - demo
