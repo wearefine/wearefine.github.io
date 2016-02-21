@@ -9,7 +9,7 @@ layout: default
         {% include icon-fine.svg %}
       </a>
 
-      <p>{{ site.github.project_tagline }}</p>
+      <p>We do work. Plus, we share.</p>
     </div>
   </div>
 </header>
@@ -18,8 +18,12 @@ layout: default
   <div class="project-wrapper">
     {% for page in site.pages limit:10 %}
       {% if page.title %}
-        <a href="{{ page.url }}" title="{{ page.title }}" class="project-block">
-          {% include {{ page.repository_slug }}.svg %}
+        <a href="{{ page.url }}" title="{{ page.title }}" class="project-block project-logo">
+          {% if page.logo %}
+            {% include {{ page.logo }} %}
+          {% else %}
+            {{ page.title }}
+          {% endif %}
         </a>
       {% endif %}
     {% endfor %}

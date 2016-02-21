@@ -5,8 +5,12 @@
     </nav>
 
     <div class="feature">
-      <a href="https://github.com/{{ site.github.owner_name }}/{{ page.repository_slug }}" title="{{ site.title }}" class="logo">
-        {% include {{ page.repository_slug }}.svg %}
+      <a href="https://github.com/{{ site.github.owner_name }}/{{ page.repository_slug }}" title="{{ site.title }}" class="logo project-logo">
+        {% if page.logo %}
+          {% include {{ page.logo }} %}
+        {% else %}
+          {{ page.title }}
+        {% endif %}
       </a>
 
       <p>{{ page.tagline }}</p>
