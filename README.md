@@ -17,7 +17,7 @@ Pages can be added in the root directory with a `.md` or `.html` extension. They
 | `js_download` | | Links directly to `<project-slug>.js` in the project's root folder, `master` branch. Accepts `true` or `false` (assumes `false` if not supplied) |
 | `zip_download` | | Links directly to GitHub's ZIP of the project. Accepts `true` or `false` (assumes `false` if not supplied) |
 
-## Developing Locally
+## Local Development
 
 1. `git clone git@github.com:wearefine/wearefine.github.io.git`
 1. `ruby 2.2 <=`
