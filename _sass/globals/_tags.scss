@@ -28,14 +28,20 @@ body {
   font-family: $f-content;
 }
 
-img {
+img,
+svg {
   height: auto;
   max-width: 100%;
 }
 
 a {
+  color: $c-green;
   transition: color 0.2s;
   text-decoration: none;
+
+  &:hover {
+    color: $c-gray;
+  }
 }
 
 table {

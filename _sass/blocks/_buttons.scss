@@ -15,6 +15,7 @@
 
   &:hover {
     background: lighten($c-gray, 14%);
+    color: $c-white;
   }
 
   + .button {
