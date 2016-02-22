@@ -2,6 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: stretch;
+  flex-wrap: wrap;
 }
 
 .project-block {
@@ -12,6 +13,8 @@
   background: $c-gray;
   transition: background 0.3s ease-in-out;
   justify-content: center;
+  margin: 0 0 $base-space;
+  min-height: 260px;
 
   @include bp(medium) {
     width: 48%;
@@ -31,7 +34,7 @@
 }
 
 .project-logo {
-  color: #fff;
+  color: $c-white;
   font-size: remCalc(52px);
   font-weight: bold;
 }
