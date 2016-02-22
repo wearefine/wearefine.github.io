@@ -18,7 +18,7 @@ layout: default
   <div class="project-wrapper">
     {% for page in site.pages limit:10 %}
       {% if page.title %}
-        <a href="{{ page.url }}" title="{{ page.title }}" class="project-block project-logo">
+        <a href="{{ page.url }}" title="{{ page.title }}" class="project-block">
           {% if page.logo %}
             {% include {{ page.logo }} %}
           {% else %}

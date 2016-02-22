@@ -9,15 +9,22 @@
   display: flex;
   width: 100%;
   align-items: center;
-  padding: 80px 60px;
+  padding: 80px 50px;
   background: $c-gray;
   transition: background 0.3s ease-in-out;
   justify-content: center;
   margin: 0 0 $base-space;
   min-height: 260px;
+  font-size: remCalc(42px);
+  color: $c-white;
+  font-weight: bold;
 
   @include bp(medium) {
     width: 48%;
+  }
+
+  @include bp(large) {
+    width: 31%;
   }
 
   path {

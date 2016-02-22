@@ -10,6 +10,10 @@
 
   &.-index {
     padding: $base-space 0;
+
+    .logo {
+      max-width: 230px;
+    }
   }
 
   p {
