@@ -2,7 +2,7 @@
 layout: page
 title: Frob Core
 repository_slug: frob-core
-js_download: true
+zip_download: true
 permalink: /frob-core/
 tagline: A framework for front (frob) enders (tenders) everywhere
 logo: frob-core.svg
