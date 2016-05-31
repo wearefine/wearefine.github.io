@@ -1,0 +1,17 @@
+{% if page.show_docs %}
+  <a href="./" class="button" title="Read up">Docs</a>
+{% endif %}
+
+{% if page.show_demo %}
+  <a href="demo" class="button" title="Don't take our word for it">Demo</a>
+{% endif %}
+
+{% if page.js_download %}
+  {% include download-js.html %}
+{% endif %}
+
+{% if page.zip_download %}
+  {% include download-zip.html %}
+{% endif %}
+
+<a href="https://github.com/{{ site.github.owner_name }}/{{ page.repository_slug }}" class="button" title="View {{ page.title }} on GitHub">View on GitHub</a>
