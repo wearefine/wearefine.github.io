@@ -1,0 +1,75 @@
+---
+layout: page
+title: Fryr Demo
+repository_slug: fryr
+js_download: true
+permalink: /fryr/demo
+tagline: Command window.location.hash like a cook in the kitchen
+logo: fryr.svg
+show_docs: true
+---
+<form class="wrapper">
+  <div class="input">
+    <label for="key">Key</label>
+    <input type="text" id="js-fryr-key" name="key" value="office_furniture" placeholder="Param value" />
+  </div>
+  <div class="input">
+    <label for="value">Value</label>
+    <input type="text" id="js-fryr-value" name="value" value="aquarium" placeholder="Param key" />
+  </div>
+
+  <section class="download">
+    <input type="submit" id="js-fryr-update" class="button" value="update()">
+    <a href="#" id="js-fryr-append" class="button">append()</a>
+    <a href="#" id="js-fryr-reset" class="button">Reset</a>
+  </section>
+</form>
+
+<pre id="js-params"></pre>
+
+<script type="text/javascript" src="./fryr.js"></script>
+<script type="text/javascript">
+var input_key = document.getElementById('js-fryr-key');
+var input_value = document.getElementById('js-fryr-value');
+
+var param_zone = document.getElementById('js-params');
+
+// Fryr callback - formats results
+function prettyPrintParams(params) {
+  var string_params = JSON.stringify(params);
+
+  // If Fryr has params add line breaks and indentation
+  if(string_params !== '{}') {
+    string_params = string_params
+                      .replace(/",/g, '",<br />&nbsp;&nbsp;')
+                      .replace(/\{/g, '{<br />&nbsp;&nbsp;')
+                      .replace(/\}/g, '<br />}');
+  }
+
+  // Insert params into HTML
+  param_zone.innerHTML = string_params;
+}
+
+var fry = new Fryr(prettyPrintParams);
+
+document.getElementById('js-fryr-update').addEventListener('click', function(e) {
+  e.preventDefault();
+
+  fry.update(input_key.value, input_value.value);
+});
+
+document.getElementById('js-fryr-append').addEventListener('click', function(e) {
+  e.preventDefault();
+
+  fry.append(input_key.value, input_value.value);
+});
+
+document.getElementById('js-fryr-reset').addEventListener('click', function(e) {
+  e.preventDefault();
+
+  window.location.hash = '';
+  // Restore original input values
+  input_key.value = 'office_furniture';
+  input_value.value = 'aquarium';
+});
+</script>

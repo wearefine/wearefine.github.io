@@ -1,0 +1,42 @@
+form {
+  text-align: center;
+
+  input[type="text"] {
+    text-align: left;
+  }
+}
+
+label {
+  display: block;
+  text-transform: uppercase;
+  text-align: left;
+  padding-left: 10px;
+  margin-bottom: 4px;
+  font-weight: bold;
+  font-size: 13px;
+}
+
+input[type="submit"] {
+  line-height: inherit;
+}
+
+input[type="text"] {
+  border: 1px solid $c-light-gray;
+  box-shadow: none;
+  padding: 12px 16px;
+  font-size: 18px;
+  margin: 0 10px;
+  border-radius: 5px;
+
+  &:first-child {
+    margin-left: 0;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.input {
+  display: inline-block;
+}
