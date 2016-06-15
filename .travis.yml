@@ -1,0 +1,11 @@
+language: generic
+branches:
+  only:
+    # Only allow manual Travis builds
+    - automated-build
+env:
+  global:
+  - ENCRYPTION_LABEL: ca9cd316738d
+script:
+  - chmod ugo+x deploy.sh
+  - '[ "${TRAVIS_PULL_REQUEST}" != "false" ] || ./deploy.sh'
