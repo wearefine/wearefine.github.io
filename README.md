@@ -10,7 +10,7 @@ We do work. Plus, we share.
 
 Projects should be added with their own directory and an `index.md` or `index.html`.
 
-Although [front matter is required](https://help.github.com/articles/configuring-jekyll/#front-matter-is-required), it is handled by the automatic deploys. Instead, meta is generated from the `_config.yml`:
+Although [front matter is required](https://help.github.com/articles/configuring-jekyll/#front-matter-is-required), it is handled by the automatic deploys. Instead, meta is generated from [`_config.yml`](_config.yml):
 
 | Key | Required | Description |
 |---|---|---|
@@ -79,7 +79,7 @@ after_success:
 - '[ "${TRAVIS_PULL_REQUEST}" != "false" ] || ./notify.sh'
 ```
 
-Finally generate and add the auth token required to make a new build. Using the [Travis CI CLI gem](https://github.com/travis-ci/travis.rb), login, generate a token, and encrypt it.
+Finally, using the [Travis CI CLI gem](https://github.com/travis-ci/travis.rb), login, generate a token, and encrypt it. The token is automatically added to `.travis.yml`.
 
 ```
 travis login --org
