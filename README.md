@@ -78,7 +78,7 @@ after_success:
 - '[ "${TRAVIS_PULL_REQUEST}" != "false" ] || ./notify.sh'
 ```
 
-Finally, using the [Travis CI CLI gem](https://github.com/travis-ci/travis.rb), login, generate a token, and encrypt it. The token is automatically added to `.travis.yml`.
+Using the [Travis CI CLI gem](https://github.com/travis-ci/travis.rb), login, generate a token, and encrypt it. The token is automatically added to `.travis.yml`.
 
 ```
 travis login --org
@@ -86,6 +86,12 @@ travis encrypt AUTH_TOKEN=$(travis token --org) --add
 ```
 
 **Note:** A new encrypted token must be generated for each repo, it cannot be copied between projects.
+
+Finally, add the GitHub repo slug to `REPOS_TO_COMPILE` in [deploy.sh script](deploy.sh):
+
+```bash
+REPOS_TO_COMPILE='fae fine-forever frob-core fryr maximus slim-gym fun-fancy-project'
+```
 
 ## Local Development
 
