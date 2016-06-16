@@ -43,6 +43,7 @@ REPO_NAME=${PWD##*/}
 AUTHOR_EMAIL=`git log -1 --format=%ae`
 SHA=`git rev-parse --verify HEAD`
 
+# ENV variables are passed to the deploy.sh script and used in the commit message
 body='{
   "request": {
     "message": "Automated: New build started by '$AUTHOR_EMAIL' on wearefine/'$REPO_NAME'@'$SHA'",
@@ -57,6 +58,8 @@ body='{
   }
 }'
 
+# $AUTH_TOKEN is an encrypted variable that must be generated per project
+# See https://github.com/wearefine/wearefine.github.io/blob/master/README.md#travis-ci
 curl -s -X POST \
   -H "Content-Type: application/json" \
   -H "Accept: application/json" \
