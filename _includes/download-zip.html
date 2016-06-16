@@ -1,1 +1,13 @@
-<a href="{{ site.github.repository_url }}/zipball/master" class="button" title="Download {{ site.title }} ZIP">Download</a>
+{% assign slug = page.url | split: '/' %}
+{% comment %}
+  {% This won't allow accessors like title for whatever reason %}
+  {% assign meta = site.projects | where: "slug", slug[1] %}
+{% endcomment %}
+
+{% for project in site.projects %}
+  {% if project.slug == slug[1] %}
+    {% assign meta = project %}
+  {% endif %}
+{% endfor %}
+
+<a href="{{ site.github.repository_url }}/zipball/master" class="button" title="Download {{ meta.title }} ZIP">Download</a>

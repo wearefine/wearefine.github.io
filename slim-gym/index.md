@@ -1,10 +1,4 @@
 ---
-layout: page
-title: Slim Gym
-repository_slug: slim-gym
-zip_download: true
-permalink: /slim-gym/
-tagline: A bi-directional Slim editor that tones your atts, trims your tags, and gives you results in six seconds or less
 ---
 
 Start your [Slim](http://slim-lang.com/) training today at [slim-gym.herokuapp.com](http://slim-gym.herokuapp.com).

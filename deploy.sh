@@ -33,7 +33,22 @@ for repo_name in $REPOS_TO_COMPILE; do
   if [ -e "$MANIFEST_FILE_NAME" ]; then
     # Copy relevant files specified in child repo, going line-by-line
     while read path_name; do
-      # If it's a README, ignore.
+
+      # If name changes, file is Markdown or HTML
+      # Simpler way of checking for the extension
+      markdown_name=`basename "$path_name" .md`
+      html_name=`basename "$path_name" .html`
+
+      # In order to compile for Jekyll, front matter needs to be triggered
+      # The meta is handled in the config, but the following injects front matter --- --- bookends into Markdown and HTML files
+      if [[ "$markdown_name" != "$path_name" || "$html_name" != "$path_name" ]]; then
+        # \n was inserting literally as \n
+        sed -i "" '1s/^/---\
+---\
+/' $path_name
+      fi
+
+      # If it's a README, change to index.md
       if [ "$path_name" == "README.md" ]; then
         cp "./$path_name" "../../_deploy/$repo_name/index.md"
       else
@@ -60,7 +75,7 @@ COMMIT_MSG=''
 
 # If trigger repo is not an empty string
 if [[ -n "$TRIGGER_REPO" ]]; then
-  COMMIT_MSG="Automated: Build docs and demos $SHA (Triggered by $AUTHOR_NAME on $ORG_NAME/$TRIGGER_REPO@$TRIGGER_SHA)"
+  COMMIT_MSG="Automated: Build docs and demos $SHA (Triggered by $AUTHOR_EMAIL on $ORG_NAME/$TRIGGER_REPO@$TRIGGER_SHA)"
 else
   COMMIT_MSG="Automated: Build docs and demos $SHA"
 fi
@@ -70,7 +85,7 @@ if [ -n "$(git status --porcelain)" ]; then
   git commit -m "$COMMIT_MSG"
 
   # Get the deploy key by using Travis's stored variables to decrypt travis_deploy_key.enc
-  openssl aes-256-cbc -K $encrypted_7d4070ac53ae_key -iv $encrypted_7d4070ac53ae_iv -in travis_deploy_key.enc -out travis_deploy_key -d
+  openssl aes-256-cbc -K $encrypted_ca9cd316738d_key -iv $encrypted_ca9cd316738d_iv -in travis_deploy_key.enc -out travis_deploy_key -d
   chmod 600 travis_deploy_key
   eval `ssh-agent -s`
   ssh-add travis_deploy_key

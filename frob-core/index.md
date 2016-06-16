@@ -1,11 +1,4 @@
 ---
-layout: page
-title: Frob Core
-repository_slug: frob-core
-zip_download: true
-permalink: /frob-core/
-tagline: A framework for front (frob) enders (tenders) everywhere
-logo: frob-core.svg
 ---
 
 Because you're not [hardcore](https://www.youtube.com/watch?v=f-mPnmfrm6I).

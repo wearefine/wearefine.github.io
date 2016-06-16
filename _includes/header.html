@@ -1,3 +1,15 @@
+{% assign slug = page.url | split: '/' %}
+{% comment %}
+  {% This won't allow accessors like title for whatever reason %}
+  {% assign meta = site.projects | where: "slug", slug[1] %}
+{% endcomment %}
+
+{% for project in site.projects %}
+  {% if project.slug == slug[1] %}
+    {% assign meta = project %}
+  {% endif %}
+{% endfor %}
+
 <header class="main-header">
   <div class="wrapper">
     <nav>
@@ -5,15 +17,15 @@
     </nav>
 
     <div class="feature">
-      <a href="https://github.com/{{ site.github.owner_name }}/{{ page.repository_slug }}" title="{{ page.title }}" class="logo project-logo">
-        {% if page.logo %}
-          {% include {{ page.logo }} %}
+      <a href="https://github.com/{{ site.github.owner_name }}/{{ meta.slug }}" title="{{ meta.title }}" class="logo project-logo">
+        {% if meta.logo %}
+          {% include {{ meta.logo }} %}
         {% else %}
-          {{ page.title }}
+          {{ meta.title }}
         {% endif %}
       </a>
 
-      <p>{{ page.tagline }}</p>
+      <p>{{ meta.tagline }}</p>
     </div>
 
     <div class="header-downloads">

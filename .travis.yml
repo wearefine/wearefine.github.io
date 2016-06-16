@@ -5,7 +5,9 @@ branches:
     - automated-build
 env:
   global:
-  - ENCRYPTION_LABEL: ca9cd316738d
+  - AUTHOR_EMAIL: ''
+  - TRIGGER_SHA: ''
+  - TRIGGER_REPO: ''
 script:
   - chmod ugo+x deploy.sh
   - '[ "${TRAVIS_PULL_REQUEST}" != "false" ] || ./deploy.sh'

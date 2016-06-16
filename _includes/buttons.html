@@ -1,17 +1,30 @@
-{% if page.show_docs %}
-  <a href="./" class="button" title="Read up">Docs</a>
+{% assign slug = page.url | split: '/' %}
+{% comment %}
+  {% This won't allow accessors like title for whatever reason %}
+  {% assign meta = site.projects | where: "slug", slug[1] %}
+{% endcomment %}
+
+{% for project in site.projects %}
+  {% if project.slug == slug[1] %}
+    {% assign meta = project %}
+  {% endif %}
+{% endfor %}
+
+{% if meta.show_demo %}
+  {% assign filename = page.url | split: '/' %}
+  {% if filename.last == 'demo.html' %}
+    <a href="./" class="button" title="Read up">Docs</a>
+  {% else %}
+    <a href="demo" class="button" title="Don't take our word for it">Demo</a>
+  {% endif %}
 {% endif %}
 
-{% if page.show_demo %}
-  <a href="demo" class="button" title="Don't take our word for it">Demo</a>
-{% endif %}
-
-{% if page.js_download %}
+{% if meta.js_download %}
   {% include download-js.html %}
 {% endif %}
 
-{% if page.zip_download %}
+{% if meta.zip_download %}
   {% include download-zip.html %}
 {% endif %}
 
-<a href="https://github.com/{{ site.github.owner_name }}/{{ page.repository_slug }}" class="button" title="View {{ page.title }} on GitHub">View on GitHub</a>
+<a href="https://github.com/{{ site.github.owner_name }}/{{ meta.slug }}" class="button" title="View {{ meta.title }} on GitHub">View on GitHub</a>

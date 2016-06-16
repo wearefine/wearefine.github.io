@@ -18,10 +18,10 @@ layout: default
   <div class="project-wrapper">
     {% for page in site.projects %}
       <a href="/{{ page.slug }}" title="{{ page.title }}" class="project-block">
-        {% if page.logo == 'false' %}
-          {{ page.title }}
+        {% if page.logo %}
+          {% include {{ page.logo }} %}
         {% else %}
-          {% include {{ page.slug }}.svg %}
+          {{ page.title }}
         {% endif %}
       </a>
     {% endfor %}

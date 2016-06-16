@@ -1,11 +1,4 @@
 ---
-layout: page
-title: Fine Forever
-repository_slug: fine-forever
-js_download: true
-permalink: /fine-forever/
-tagline: Infinite scroll in native JavaScript 
-logo: fine-forever.svg
 ---
 
 ## Quick start
