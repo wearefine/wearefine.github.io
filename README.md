@@ -14,7 +14,6 @@ Although [front matter is required](https://help.github.com/articles/configuring
 
 | Key | Required | Description |
 |---|---|---|
-| `layout` | `required` | Type. Accepts `null`, `default`, or `page`. `page` is recommended for most scenarios |
 | `title` | `required` | Project name. (i.e. "Fryr") |
 | `slug` | `required` | Project location on `github.io` docs |
 | `tagline` | `required` | Project description (i.e. "A command-line lint warrior") |
