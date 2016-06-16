@@ -4,3 +4,5 @@ _site
 .sass-cache
 .jekyll-metadata
 _git_src
+travis_deploy_key
+travis_deploy_key.pub

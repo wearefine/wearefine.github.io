@@ -10,15 +10,21 @@ echo "Running deployment script..."
 REPO=`git config remote.origin.url`
 SSH_REPO=${REPO/https:\/\/github.com\//git@github.com:}
 SHA=`git rev-parse --verify HEAD`
-MANIFEST_FILE_NAME="./wearefine.github.io.manifest.txt"
-REPOS_TO_COMPILE='fae fryr fine-forever frob-core maximus'
+ORG_NAME="wearefine"
+MANIFEST_FILE_NAME="./$ORG_NAME.github.io.manifest.txt"
+REPOS_TO_COMPILE='fae fine-forever frob-core fryr maximus slim-gym'
 
+mkdir _deploy
 mkdir _git_src
+
+# Clone a fresh copy of the current repo to _deploy (this will be used later)
+git clone $REPO _deploy
+
 cd _git_src
 
 # Clone repos to compile
 for repo_name in $REPOS_TO_COMPILE; do
-  git clone -b master "https://github.com/wearefine/${repo_name}.git"
+  git clone -b master "https://github.com/$ORG_NAME/${repo_name}.git"
 
   # Enter cloned repo
   cd "$repo_name"
@@ -29,9 +35,9 @@ for repo_name in $REPOS_TO_COMPILE; do
     while read path_name; do
       # If it's a README, ignore.
       if [ "$path_name" == "README.md" ]; then
-        cp "./$path_name" "../../$repo_name/index.md"
+        cp "./$path_name" "../../_deploy/$repo_name/index.md"
       else
-        cp -r "./$path_name" "../../$repo_name/$path_name"
+        cp -r "./$path_name" "../../_deploy/$repo_name/$path_name"
       fi
     done < "$MANIFEST_FILE_NAME"
   else
@@ -42,32 +48,37 @@ for repo_name in $REPOS_TO_COMPILE; do
   cd ..
 done
 
-# Return to root directory
-cd ..
-
-# Destroy cloned repos
-# This doesn't always remove the folder, so be sure to include it in .gitignore
-rm -rf _git_src
+cd ../_deploy
 
 git config user.name "Travis-CI"
-git config user.email "travis-ci@wearefine.com"
+git config user.email "travis-ci@$ORG_NAME.com"
 
 # Commit the "changes", i.e. the new version.
 git add .
-git commit -m "Automated: Build docs and demos $SHA"
 
-# Get the deploy key by using Travis's stored variables to decrypt deploy_key.enc
-ENCRYPTED_KEY_VAR="encrypted_${ENCRYPTION_LABEL}_key"
-ENCRYPTED_IV_VAR="encrypted_${ENCRYPTION_LABEL}_iv"
-ENCRYPTED_KEY=${!ENCRYPTED_KEY_VAR}
+COMMIT_MSG=''
 
-ENCRYPTED_IV=${!ENCRYPTED_IV_VAR}
-openssl aes-256-cbc -K $ENCRYPTED_KEY -iv $ENCRYPTED_IV -in deploy_key.enc -out deploy_key -d
-chmod 600 deploy_key
-eval `ssh-agent -s`
-ssh-add deploy_key
+# If trigger repo is not an empty string
+if [[ -n "$TRIGGER_REPO" ]]; then
+  COMMIT_MSG="Automated: Build docs and demos $SHA (Triggered by $AUTHOR_NAME on $ORG_NAME/$TRIGGER_REPO@$TRIGGER_SHA)"
+else
+  COMMIT_MSG="Automated: Build docs and demos $SHA"
+fi
 
-# Push to branch
-git push $SSH_REPO master
+# Apply and deploy commit IF there are changes
+if [ -n "$(git status --porcelain)" ]; then
+  git commit -m "$COMMIT_MSG"
 
-echo "Pushed deployment successfully"
+  # Get the deploy key by using Travis's stored variables to decrypt travis_deploy_key.enc
+  openssl aes-256-cbc -K $encrypted_7d4070ac53ae_key -iv $encrypted_7d4070ac53ae_iv -in travis_deploy_key.enc -out travis_deploy_key -d
+  chmod 600 travis_deploy_key
+  eval `ssh-agent -s`
+  ssh-add travis_deploy_key
+
+  # Push to branch
+  git push -f $SSH_REPO master
+
+  echo "Pushed deployment successfully"
+else
+  echo "Nothing to commit"
+fi

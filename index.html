@@ -16,16 +16,14 @@ layout: default
 
 <main class="wrapper -main -index">
   <div class="project-wrapper">
-    {% for page in site.pages limit:10 %}
-      {% if page.title %}
-        <a href="{{ page.url }}" title="{{ page.title }}" class="project-block">
-          {% if page.logo %}
-            {% include {{ page.logo }} %}
-          {% else %}
-            {{ page.title }}
-          {% endif %}
-        </a>
-      {% endif %}
+    {% for page in site.projects %}
+      <a href="/{{ page.slug }}" title="{{ page.title }}" class="project-block">
+        {% if page.logo == 'false' %}
+          {{ page.title }}
+        {% else %}
+          {% include {{ page.slug }}.svg %}
+        {% endif %}
+      </a>
     {% endfor %}
   </div>
 </main>

@@ -13,3 +13,18 @@ twitter_username: wearefine
 
 # Build settings
 markdown: kramdown
+projects:
+  - title: Fae
+    slug: fae
+    logo: 'false'
+  - title: Fryr
+    slug: fryr
+  - title: Fine Forever
+    slug: fine-forever
+  - title: Frob Core
+    slug: frob-core
+  - title: Maximus
+    slug: maximus
+  - title: Slim Gym
+    slug: slim-gym
+    logo: 'false'
