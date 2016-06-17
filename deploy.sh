@@ -9,7 +9,6 @@ echo "Running deployment script..."
 # Save some useful information
 REPO=`git config remote.origin.url`
 SSH_REPO=${REPO/https:\/\/github.com\//git@github.com:}
-SHA=`git rev-parse --verify HEAD`
 ORG_NAME="wearefine"
 MANIFEST_FILE_NAME="./$ORG_NAME.github.io.manifest.txt"
 REPOS_TO_COMPILE='fae fine-forever frob-core fryr maximus slim-gym'
@@ -75,9 +74,9 @@ COMMIT_MSG=''
 
 # If trigger repo is not an empty string
 if [[ -n "$TRIGGER_REPO" ]]; then
-  COMMIT_MSG="Automated: Build docs and demos $SHA (Triggered by $AUTHOR_EMAIL on $ORG_NAME/$TRIGGER_REPO@$TRIGGER_SHA)"
+  COMMIT_MSG="Automated: Build docs and demos (Started by $AUTHOR_EMAIL on $ORG_NAME/$TRIGGER_REPO@$TRIGGER_SHA)"
 else
-  COMMIT_MSG="Automated: Build docs and demos $SHA"
+  COMMIT_MSG="Automated: Build docs and demos"
 fi
 
 # Apply and deploy commit IF there are changes
