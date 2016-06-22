@@ -1,12 +1,4 @@
 ---
-layout: page
-title: Fryr
-repository_slug: fryr
-js_download: true
-permalink: /fryr/
-tagline: Command window.location.hash like a cook in the kitchen
-logo: fryr.svg
-show_demo: true
 ---
 
 Fryr is the fry cook you never knew you needed to turn that ugly, frozen hash into pretty, delectably digestable params. Not only does it make params accessible for use on the client-side, it also adds, removes, and updates them.

@@ -10,6 +10,48 @@ title: FINE Open Source
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://wearefine.github.io" # the base hostname & protocol for your site
 twitter_username: wearefine
+projects:
+  - title: Fae
+    slug: fae
+    js_download: false
+    tagline: A flexible CMS for Rails
+  - title: Fryr
+    slug: fryr
+    js_download: true
+    tagline: Command window.location.hash like a cook in the kitchen
+    logo: fryr.svg
+    show_demo: true
+  - title: Fine Forever
+    slug: fine-forever
+    js_download: true
+    tagline: Infinite scroll in native JavaScript
+    logo: fine-forever.svg
+  - title: Frob Core
+    slug: frob-core
+    title: Frob Core
+    zip_download: true
+    tagline: A framework for front (frob) enders (tenders) everywhere
+    logo: frob-core.svg
+  - title: Maximus
+    slug: maximus
+    tagline: A command-line lint warrior
+    logo: maximus.svg
+  - title: Slim Gym
+    slug: slim-gym
+    zip_download: true
+    tagline: A bi-directional Slim editor that tones your atts, trims your tags, and gives you results in six seconds or less
 
 # Build settings
 markdown: kramdown
+exclude:
+  - travis_deploy_key.enc
+  - deploy.sh
+  - Gemfile
+  - Gemfile.lock
+  - .travis.yml
+defaults:
+  -
+    scope:
+      path: ""
+    values:
+      layout: 'page'

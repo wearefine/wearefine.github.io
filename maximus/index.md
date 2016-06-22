@@ -1,10 +1,4 @@
 ---
-layout: page
-title: Maximus
-repository_slug: maximus
-permalink: /maximus/
-tagline: A command-line lint warrior
-logo: maximus.svg
 ---
 
 The all-in-one linting solution.

@@ -4,7 +4,23 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=10.0, user-scalable=1">
 
-  <title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
+  {% assign slug = page.url | split: '/' %}
+  {% comment %}
+    {% This won't allow accessors like title for whatever reason %}
+    {% assign meta = site.projects | where: "slug", slug[1] %}
+  {% endcomment %}
+
+  {% for project in site.projects %}
+    {% if project.slug == slug[1] %}
+      {% assign meta = project %}
+    {% endif %}
+  {% endfor %}
+
+  <title>{% if meta %}
+    {{ meta.title }}{% if meta.show_demo %} Demo {% endif %}
+  {% else %}
+    {{ site.title }}
+    {% endif %}</title>
   <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.github.project_tagline }}{% endif %}">
 
   <link href='//fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>

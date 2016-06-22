@@ -1,0 +1,13 @@
+language: generic
+branches:
+  only:
+    # Only allow manual Travis builds
+    - automated-build
+env:
+  global:
+  - AUTHOR_EMAIL: ''
+  - TRIGGER_SHA: ''
+  - TRIGGER_REPO: ''
+script:
+  - chmod ugo+x deploy.sh
+  - '[ "${TRAVIS_PULL_REQUEST}" != "false" ] || ./deploy.sh'
