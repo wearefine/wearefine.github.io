@@ -32,6 +32,7 @@ for repo_name in $REPOS_TO_COMPILE; do
   if [ -e "$MANIFEST_FILE_NAME" ]; then
     # Copy relevant files specified in child repo, going line-by-line
     while read path_name; do
+      echo ">>> $path_name"
 
       # If name changes, file is Markdown or HTML
       # Simpler way of checking for the extension
@@ -44,7 +45,6 @@ for repo_name in $REPOS_TO_COMPILE; do
         sed -i '1s/^/---\n---\n/' $path_name
       fi
 
-      echo ">>> $path_name"
 
       # If it's a README, change to index.md
       if [ "$path_name" == "README.md" ]; then
