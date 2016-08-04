@@ -1,17 +1,45 @@
 ---
 ---
+# Frob Core
+
+[![Build Status](https://travis-ci.org/wearefine/frob-core.svg?branch=master)](https://travis-ci.org/wearefine/frob-core) [![Code Climate](https://codeclimate.com/github/wearefine/frob-core/badges/gpa.svg)](https://codeclimate.com/github/wearefine/frob-core)
 
 Because you're not [hardcore](https://www.youtube.com/watch?v=f-mPnmfrm6I).
+
+P.S. The inline code documentation in this pup is rock solid.
 
 ## JavaScript
 
 1. Copy `source/javascripts/frob_core_helpers.js` and `source/javascripts/frob_core.js` to your project.
 1. Apply the structure of `source/javascripts/application.js` to your project.
-1. Start Frob Core (usually in `application.js`): `;(function() { FCH.init(); })();`
+1. Start Frob Core (usually in `application.js`): `;(function() { window.FCH = new FrobCoreHelpers(FC); })();`
 
-Your base file (in this project it's `source/javascripts/frob_core.js`) must declare `var FC = {};`. If it doesn't, the core holder must be passed in `FCH.init`, i.e. `FCH.init(notFCButStillAJavaScriptObject)`.
+### Initialization and Options
 
-Nested functions can be declared via Frob Core's [hooks](#hooks).
+The core holder must be passed in as the first argument for initialization, i.e. `new FrobCoreHelpers(FC)`, but all other options are, fittingly, optional. These are passed in via object as the second argument, i.e. `new FrobCoreHelpers(FC, { ... })`.
+
+| Option | Type | Default | Description
+|---|---|---|---|
+| `mobile_fps` | boolean | true | Attach the scroll listener for `u-disable-hover` |
+| `breakpoints` | function | null | To set custom breakpoint, pass a function with two args and return a `string: boolean` object (example below) |
+| `preserve_breakpoints` | boolean | true | Merge custom breakpoints with [default breakpoints](#breakpoints). If false, value of `breakpoints` removes all default breakpoints |
+
+```javascript
+window.FCH = new FrobCoreHelpers({}, {
+  breakpoints: function(ww) {
+    return {
+      boot_size: ww < 12
+    };
+  },
+  preserve_breakpoints: false
+});
+
+// FCH.bp => { boot_size: <true|false> }
+```
+
+### Hooks
+
+Direct descendants of the core holder can access hooks using reserved property names. These are called automagically, avoiding declaring multiple event listeners on the `document` or `window`.
 
 ```javascript
 FC.ui = {
@@ -27,12 +55,7 @@ FC.ui = {
 };
 ```
 
-Direct descendants of `FC` have access to the [hooks](#hooks); grandchildren (i.e. `FC.ui.sliders`) should be initialized within a conditional in a `ready` or `load` hook. In extremely rare and special circumstances that should be treated as such, they can be initialized by manual addition, i.e. `FCH.ready.push(mySuperSliderInitialization)`.
-
-### Hooks
-
-Reserved functions on `FC` keys can be called automagically, avoiding declaring multiple event listeners on the `document` or `window`. For example,
-use the `resize` function to change the width of `.mydiv` to match the window's width.
+For example, use the `resize` function to change the width of `.mydiv` to match the window's width.
 
 ```javascript
 FC._ui = {
@@ -42,7 +65,7 @@ FC._ui = {
 };
 ```
 
-Hooks can also be added by adding a function to the appropriate `FCH` hook Arrays.
+Hooks can also be added by adding a function to the appropriate `FCH` array.
 
 ```javascript
 var sticky = function($el) {
@@ -58,7 +81,7 @@ FCH.scroll.push(sticky);
 | `ready` | DOMContentLoaded |
 | `load` | window onload |
 
-**Special Note**: Using `this` in a hook function will refer to the parent namespace.
+**Special Note**: Using `this` in a hook function will refer to the parent namespace, not `FrobCoreHelper`.
 
 ```javascript
 FC._ui = {
@@ -100,7 +123,7 @@ FC.nav_listeners = {
 
 ### Breakpoints
 
-Available from `FCH.bp`. Returns boolean.
+These defaults are available from `FCH.bp`. Returns boolean. They can be appended, overwritten, or removed entirely when declaring options.
 
 | Accessor | Description |
 |---|---|
@@ -145,9 +168,53 @@ function(required_value, missing_value) {
 }
 ```
 
+### addClass
+
+`addClass` adds a class to an element with vanilla JS.
+
+| Param | Description |
+|---|---|
+| `element` | JS Object |
+| `class` | String of class to be added |
+
+```javascript
+var el = document.createElement('div');
+FCH.addClass(el, 'foo'); // el.className is now "foo"
+```
+
+### removeClass
+
+`removeClass` removes a class to an element with vanilla JS if the element already has that class.
+
+| Param | Description |
+|---|---|
+| `element` | JS Object |
+| `class` | String of class to be removed |
+
+```javascript
+var el = document.createElement('div');
+el.className = 'foo';
+FCH.removeClass(el, 'foo'); // el.className is now ""
+```
+
+### toggleClass
+
+`toggleClass` adds a class to an element with vanilla JS if the element does not already have the class, removes the class if it does.
+
+| Param | Description |
+|---|---|
+| `element` | JS Object |
+| `class` | String of class to be toggled |
+
+```javascript
+var el = document.createElement('div');
+FCH.toggleClass(el, 'foo'); // el.className is now "foo"
+FCH.toggleClass(el, 'foo'); // el.className is now ""
+```
+
 ### Loops
 
-`loopAndExecute` saves characters on `for` loops.
+`loop` saves characters on `for` loops.
 
 | Param | Description |
 |---|---|
@@ -156,7 +223,7 @@ function(required_value, missing_value) {
 
 ```javascript
 var titles = '';
-FCH.loopAndExecute('.posts', function(post) {
+FCH.loop('.posts', function(post) {
   titles += post.querySelector('h2').textContent;
 });
 ```
@@ -219,7 +286,7 @@ $f-content: $f-opensans;
 
 #### hover
 
-Quick shortcut for `&:hover { ... }` accepts color or block.
+Quick shortcut for `&:hover { ... }`. Accepts color value or block.
 
 ```scss
 @include hover($c-white)
@@ -264,7 +331,14 @@ If you want to name your ordered list different from your classes, pass a key as
 
 #### bp
 
-Put a block of content within a media breakpoint using the list defined in `_breakpoints.scss`. 
+
+| Param | Accepts | Default |
+|---|---|---|
+| `$name` | string | required |
+| `$breakpoint_list` | map | `$breakpoints` |
+| `$additional_breakpoints` | arglist<string> | `null` |
+
+Put a block of content within a media breakpoint using the `$breakpoints` list defined in `_variables.scss`.
 
 ```scss
 .show--mobile {
@@ -272,6 +346,24 @@ Put a block of content within a media breakpoint using the list defined in `_bre
   @include bp(small) {
     display: block;
   }
+}
+```
+
+To use a custom set of breakpoints, pass the list in the second argument (default is `$breakpoints`). 
+
+```scss
+$tweakpoints: (
+  'really-specific-nav-size': ( min-width: 438px )
+);
+@include bp(really-specific-nav-size, $tweakpoints) { ... }
+```
+
+Multiple breakpoints can be combined with an [arglist](https://www.sitepoint.com/sass-multiple-arguments-lists-or-arglist/) starting at the third argument. *Note that proper order should be obeyed and will not be automatically corrected (i.e. including `print` or `screen` as the third argument).*
+
+```scss
+.narrow-print {
+  // Prints `@media only print and (min-width: 421px) and (max-width: 767px)`
+  @include bp(print, $breakpoints, small, medium-down) { ... }
 }
 ```
 
@@ -294,7 +386,7 @@ Apply a CSS triangle to an element.
 
 #### placeholder
 
-Pass a block to apply properties to input placeholder styles. Strongly recommended to be used only at root-level.
+Pass a block to apply properties to input placeholder styles. Strongly recommended to be used only at root-level. Accepts block.
 
 ```scss
 @include placeholder {
@@ -305,7 +397,7 @@ Pass a block to apply properties to input placeholder styles. Strongly recommend
 
 #### ie
 
-Target specific Internet Explorer versions, and optionally pass in a version number. **Only use this mixin as a last resort. Feature detection is strongly preferred.** 
+Target specific Internet Explorer versions, and optionally pass in a version number. **Only use this mixin as a last resort. Feature detection is strongly preferred.** Accepts block.
 
 ```scss
 .animated-element {
@@ -316,7 +408,7 @@ Target specific Internet Explorer versions, and optionally pass in a version num
 
 #### touch
 
-Target touch devices using [Modernizr](http://v3.modernizr.com/download/#-backgroundcliptext-canvas-canvastext-cssfilters-cssgradients-csspositionsticky-cssremunit-csstransforms-csstransforms3d-csstransitions-cssvhunit-flexbox-flexboxlegacy-flexboxtweener-inlinesvg-localstorage-picture-preserve3d-srcset-svgclippaths-svgfilters-touchevents-cssclasses-dontmin).
+Target touch devices using [Modernizr](http://v3.modernizr.com/download/#-backgroundcliptext-canvas-canvastext-cssfilters-cssgradients-csspositionsticky-cssremunit-csstransforms-csstransforms3d-csstransitions-cssvhunit-flexbox-flexboxlegacy-flexboxtweener-inlinesvg-localstorage-picture-preserve3d-srcset-svgclippaths-svgfilters-touchevents-cssclasses-dontmin). Accepts block.
 
 ```scss
 .nav {
@@ -394,6 +486,20 @@ Invert a number.
 }
 ```
 
+#### gray
+
+Use a gray color from the `$grays` map.
+
+```scss
+$grays: (
+  30: #777
+);
+
+a {
+  color: gray(30); // #777
+}
+```
+
 ## File Structure and Naming Conventions
 
 ### JavaScript
@@ -405,26 +511,26 @@ Child files should have declarations in the following order:
 1. Public functions
 1. Protected functions
 
-Example: 
+Example:
 
 ```javascript
 
 FC.ui = {
   logo_height: 100,
 
-  ready: function() { 
-    this.setLogoHeight();
-  },
-  
-  load: function() { 
-    this.setLogoHeight();
-  },
-  
-  resize: function() { 
+  ready: function() {
     this.setLogoHeight();
   },
 
-  setLogoHeight: function() { 
+  load: function() {
+    this.setLogoHeight();
+  },
+
+  resize: function() {
+    this.setLogoHeight();
+  },
+
+  setLogoHeight: function() {
     var logo = this._getLogo();
     this.logo_height = logo.innerHeight;
   },
@@ -451,3 +557,14 @@ setLogoHeight: function() { ... },
  */
 _getLogo: function() { ... }
 ```
+
+## Testing
+
+Install all dependencies:
+
+```bash
+npm install --save-dev
+```
+
+* `npm test` provides a quick, one-run test as defined in [test/karma.conf.js](test/karma.conf.js)
+* `npm run test:dev` opens a Karma instance that watches for file changes, as defined in [test/karma.conf.js](test/local.karma.conf.js)
