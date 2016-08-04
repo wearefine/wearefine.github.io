@@ -4,7 +4,7 @@
 set -e
 
 # Borrowed from https://gist.github.com/kamranayub/ca7b6866ab43771d9da8#file-deploy-sh and https://gist.github.com/domenic/ec8b0fc8ab45f39403dd
-echo "Running deployment script..."
+echo "\e[34mRunning deployment script... \e[0m"
 
 # Save some useful information
 REPO=`git config remote.origin.url`
@@ -50,12 +50,14 @@ for repo_name in $REPOS_TO_COMPILE; do
       # If it's a README, change to index.md
       if [ "$path_name" == "README.md" ]; then
         cp "./$path_name" "../../_deploy/$repo_name/index.md"
+        echo "\e[34m Copied index file \e[0m"
       else
         cp -r "./$path_name" "../../_deploy/$repo_name/$path_name"
+        echo "\e[34m Copied $path_name from $repo_name \e[0m"
       fi
     done < "$MANIFEST_FILE_NAME"
   else
-    echo "Manifest not found for $repo_name"
+    echo "\e[31m Manifest not found for $repo_name \e[0m"
   fi
 
   # Return to _git_src directory
@@ -92,7 +94,7 @@ if [ -n "$(git status --porcelain)" ]; then
   # Push to branch
   git push -f $SSH_REPO master
 
-  echo "Pushed deployment successfully"
+  echo "\e[32m Pushed deployment successfully \e[0m"
 else
-  echo "Nothing to commit"
+  echo "\e[33m Nothing to commit \e[0m"
 fi
