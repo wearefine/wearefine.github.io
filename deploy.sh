@@ -81,6 +81,7 @@ fi
 pwd
 echo "$(git status --porcelain)"
 
+
 # Apply and deploy commit IF there are changes
 if [ -n "$(git status --porcelain)" ]; then
   git commit -m "$COMMIT_MSG"
