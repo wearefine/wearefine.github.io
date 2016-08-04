@@ -4,7 +4,7 @@
 set -e
 
 # Borrowed from https://gist.github.com/kamranayub/ca7b6866ab43771d9da8#file-deploy-sh and https://gist.github.com/domenic/ec8b0fc8ab45f39403dd
-echo "\e[34mRunning deployment script... \e[0m"
+echo ">>>> Running deployment script..."
 
 # Save some useful information
 REPO=`git config remote.origin.url`
@@ -41,23 +41,20 @@ for repo_name in $REPOS_TO_COMPILE; do
       # In order to compile for Jekyll, front matter needs to be triggered
       # The meta is handled in the config, but the following injects front matter --- --- bookends into Markdown and HTML files
       if [[ "$markdown_name" != "$path_name" || "$html_name" != "$path_name" ]]; then
-        # \n was inserting literally as \n
-        sed -i "" '1s/^/---\
----\
-/' $path_name
+        sed -i '1s/^/---\n---\n/' $path_name
       fi
 
       # If it's a README, change to index.md
       if [ "$path_name" == "README.md" ]; then
         cp "./$path_name" "../../_deploy/$repo_name/index.md"
-        echo "\e[34m Copied index file \e[0m"
+        echo ">>>> Copied index file"
       else
         cp -r "./$path_name" "../../_deploy/$repo_name/$path_name"
-        echo "\e[34m Copied $path_name from $repo_name \e[0m"
+        echo ">>>> Copied $path_name from $repo_name"
       fi
     done < "$MANIFEST_FILE_NAME"
   else
-    echo "\e[31m Manifest not found for $repo_name \e[0m"
+    echo ">>>> Manifest not found for $repo_name"
   fi
 
   # Return to _git_src directory
@@ -81,6 +78,9 @@ else
   COMMIT_MSG="Automated: Build docs and demos"
 fi
 
+pwd
+echo "$(git status --porcelain)"
+
 # Apply and deploy commit IF there are changes
 if [ -n "$(git status --porcelain)" ]; then
   git commit -m "$COMMIT_MSG"
@@ -94,7 +94,7 @@ if [ -n "$(git status --porcelain)" ]; then
   # Push to branch
   git push -f $SSH_REPO master
 
-  echo "\e[32m Pushed deployment successfully \e[0m"
+  echo ">>>> Pushed deployment successfully"
 else
-  echo "\e[33m Nothing to commit \e[0m"
+  echo ">>>> Nothing to commit"
 fi
