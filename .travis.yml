@@ -10,4 +10,4 @@ env:
   - TRIGGER_REPO: ''
 script:
   - chmod ugo+x deploy.sh
-  - ./deploy.sh
+  - '[ "${TRAVIS_PULL_REQUEST}" != "false" ] || ./deploy.sh'

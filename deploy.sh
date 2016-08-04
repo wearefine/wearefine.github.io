@@ -32,7 +32,6 @@ for repo_name in $REPOS_TO_COMPILE; do
   if [ -e "$MANIFEST_FILE_NAME" ]; then
     # Copy relevant files specified in child repo, going line-by-line
     while read path_name; do
-      echo ">>> $path_name"
 
       # If name changes, file is Markdown or HTML
       # Simpler way of checking for the extension
@@ -45,16 +44,15 @@ for repo_name in $REPOS_TO_COMPILE; do
         sed -i '1s/^/---\n---\n/' $path_name
       fi
 
-
       # If it's a README, change to index.md
       if [ "$path_name" == "README.md" ]; then
-        echo ">>>> Started index file copy"
         cp -r "./$path_name" "../../_deploy/$repo_name/index.md"
-        echo ">>>> Copied index file"
       else
         cp -r "./$path_name" "../../_deploy/$repo_name/$path_name"
-        echo ">>>> Copied $path_name from $repo_name"
       fi
+
+      echo ">>>> Copied $path_name from $repo_name"
+
     done < "$MANIFEST_FILE_NAME"
   else
     echo ">>>> Manifest not found for $repo_name"
