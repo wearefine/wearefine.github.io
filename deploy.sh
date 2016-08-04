@@ -44,9 +44,12 @@ for repo_name in $REPOS_TO_COMPILE; do
         sed -i '1s/^/---\n---\n/' $path_name
       fi
 
+      echo ">>> $path_name"
+
       # If it's a README, change to index.md
       if [ "$path_name" == "README.md" ]; then
-        cp "./$path_name" "../../_deploy/$repo_name/index.md"
+        echo ">>>> Started index file copy"
+        cp -r "./$path_name" "../../_deploy/$repo_name/index.md"
         echo ">>>> Copied index file"
       else
         cp -r "./$path_name" "../../_deploy/$repo_name/$path_name"
