@@ -1,3 +1,5 @@
+---
+---
 /*!
  * FrobCoreHelpers v1.1
  * A framework for front (frob) enders (tenders) everywhere

@@ -1,26 +1,37 @@
 ---
 ---
+# Fryr
+
+[![Build Status](https://travis-ci.org/wearefine/fryr.svg?branch=master)](https://travis-ci.org/wearefine/fryr) [![Code Climate](https://codeclimate.com/github/wearefine/fryr/badges/gpa.svg)](https://codeclimate.com/github/wearefine/fryr)
 
 Fryr is the fry cook you never knew you needed to turn that ugly, frozen hash into pretty, delectably digestable params. Not only does it make params accessible for use on the client-side, it also adds, removes, and updates them.
 
 ```javascript
-// ...com/#?tankhood=gill,deb,bloat
+// visit mysite.com/#?tankhood=gill,deb,bloat
 
+// define new instance of Fryr with callback
 var fry = new Fryr(callback);
+
+// callback is called on hashchange
+function callback() {
+  // do something with this.params, like refreshing content
+};
+// or access params outside of the callback
 fry.params;
 // => { 'tankhood' : 'gill,deb,bloat' }
 
-fry.update('tankhood', 'nemo');
-// => ...com/#?tankhood=gill,deb,bloat,nemo
+// then update params at will
+fry.update('home', 'reef');
+// => ...com/#?tankhood=gill,deb,bloat&home=reef
+fry.append('tankhood', 'nemo');
+// => ...com/#?tankhood=gill,deb,bloat,nemo&home=reef
 ```
 
-## Quick Start
-
-1. `//= require fryr`
-1. Call `new Fryr` with a callback function
-1. PROFIT BYAH
-
 ## Initialization
+
+```javascript
+var fry = new Fryr(hashChangeCallback, defaults, call_on_init);
+```
 
 | Arg | Type | Default | Description |
 |---|---|---|---|
@@ -65,7 +76,6 @@ fry.update('character', 'marlin');
 
 ```javascript
 // /#?character=marlin
-
 fry.update('home', 'reef');
 // => /#?character=marlin&home=reef
 ```
@@ -74,7 +84,6 @@ fry.update('home', 'reef');
 
 ```javascript
 // /#?character=marlin
-
 fry.update('character', 'nemo', false, true);
 // => /#?character=nemo
 ```
@@ -83,7 +92,6 @@ fry.update('character', 'nemo', false, true);
 
 ```javascript
 // /#?character=marlin
-
 fry.update('character', '');
 // => /#
 ```
@@ -92,7 +100,6 @@ fry.update('character', '');
 
 ```javascript
 // /#?character=marlin
-
 fry.update('character', '', true);
 // => /#?character=
 ```
@@ -110,7 +117,6 @@ Near identical to `.update`, this function is designed to add values as a list a
 
 ```javascript
 // /#?character=marlin
-
 fry.append('character', 'nemo');
 // => /#?character=marlin,nemo
 ```
@@ -127,7 +133,6 @@ Query a key in the hash directly, and don't even bother re-parsing it. In just a
 
 ```javascript
 // #?can_speak_whale=dory
-
 fry.param('can_speak_whale')
 // => 'dory'
 ```
@@ -190,8 +195,8 @@ Wipe out or selectively replace keys and values. Returns a string but also updat
 #### Examples
 
 ```javascript
-// /#?destination=sydney&directions=over_the_trench
 
+// /#?destination=sydney&directions=over_the_trench
 var obj = { 'directions' : 'through_the_trench' };
 fry.merge(obj);
 // => /#?destination=sydney&directions=through_the_trench
@@ -201,7 +206,6 @@ fry.merge(obj);
 
 ```javascript
 // /#?destination=sydney
-
 var obj = { 'directions' : 'through_the_trench' };
 fry.merge(obj, true);
 // => /#?directions=through_the_trench
@@ -222,6 +226,7 @@ Destroy current initialization, unbind `hashchange` listener, and reset the hash
 fry.destroy();
 // => /
 
+
 // /#?destination=sydney&directions=over_the_trench
 fry.destroy(true);
 // => /#?destination=sydney&directions=over_the_trench
@@ -232,3 +237,14 @@ fry.destroy(true);
 ### `.params`
 
 Grab the key/value hash of the parsed version of `window.location.hash`. Returns object.
+
+## Testing
+
+Install all dependencies:
+
+```bash
+npm install --save-dev
+```
+
+* `npm test` provides a quick, one-run test as defined in [test/karma.conf.js](test/karma.conf.js)
+* `npm run test:dev` opens a Karma instance that watches for file changes, as defined in [test/karma.conf.js](test/local.karma.conf.js)

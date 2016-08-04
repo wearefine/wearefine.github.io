@@ -1,5 +1,8 @@
 ---
 ---
+# Maximus
+
+[![Gem Version](https://badge.fury.io/rb/maximus.svg)](http://badge.fury.io/rb/maximus) [![Code Climate](https://codeclimate.com/github/wearefine/maximus/badges/gpa.svg)](https://codeclimate.com/github/wearefine/maximus) [![Build Status](https://travis-ci.org/wearefine/maximus.svg)](https://travis-ci.org/wearefine/maximus) [![Coverage Status](https://coveralls.io/repos/wearefine/maximus/badge.svg)](https://coveralls.io/r/wearefine/maximus) [![Inline docs](http://inch-ci.org/github/wearefine/maximus.svg?branch=master&style=flat)](http://inch-ci.org/github/wearefine/maximus) [![Yard Docs](http://img.shields.io/badge/yard-docs-blue.svg)](http://www.rubydoc.info/gems/maximus)
 
 The all-in-one linting solution.
 
@@ -22,55 +25,6 @@ or once the gem is successfully installed:
 ```bash
 $ maximus install
 ```
-
-## Command Line
-
-### Flags
-
-Flag                | Accepts                          | Description
---------------------|----------------------------------|--------------------
-`-g`/`--sha`      | String                           | Run maximus based on a git commit. See [below](#git-examples)
-`-f`/`--frontend`   | Boolean/Blank                    | Run all front-end lints
-`-b`/`--backend`    | Boolean/Blank                    | Run all back-end lints
-`-s`/`--statistics` | Boolean/Blank                    | Run all statistics
-`-a`/`--all`        | Boolean/Blank                    | Run everything
-`-i`/`--include`    | String/Array                     | Include specific lints or statistics
-`-i`/`--exclude`    | String/Array                     | Exclude specific lints or statistics
-`-c`/`--config`     | String                           | Path to config file
-`-fp`/`--filepaths` | String/Array                     | Space-separated path(s) to files
-`-u`/`--urls`       | String/Array                     | Statistics only - Space-separated path(s) to relative URLs
-`-d`/`--domain`     | String                           | Statistics only - Web address (prepended to paths)
-`-po`/`--port`      | String/Numeric                   | Statistics only - Port to use if required (appended to domain)
-
-* Lint tasks can accept glob notation, i.e. `**/*.scss`
-* Arrays are space-separated, i.e. `--urls=/ /about`
-
-### Commands
-
-Command               | Description
-----------------------|---------------------------
-`install`             | Installs node dependencies
-`frontend`            | Runs all front-end lints
-`backend`             | Runs all back-end lints
-`statistics`          | Runs all statistics
-
-### Git Examples
-
-`$ maximus -g working` 
-
-Default. Lints based on your working directory
-
-`$ maximus -g last` 
-
-Lints based on the previous commit by `HEAD^`
-
-`$ maximus -g master`
-
-Lints based on the commit on the master branch
-
-`$ maximus -g d96a8e23`
-
-Lints based on commit d96a8e23
 
 ## Config
 
@@ -118,3 +72,71 @@ lints: true # all lints including brakeman will run
 ```
 
 ### [Sample Config](lib/maximus/config/maximus-example.yml)
+
+## Command Line
+
+### Flags
+
+Flag                | Accepts                          | Description
+--------------------|----------------------------------|--------------------
+`-g`/`--sha`      | String                           | Run maximus based on a git commit. See [below](#git-examples)
+`-f`/`--frontend`   | Boolean/Blank                    | Run all front-end lints
+`-b`/`--backend`    | Boolean/Blank                    | Run all back-end lints
+`-s`/`--statistics` | Boolean/Blank                    | Run all statistics
+`-a`/`--all`        | Boolean/Blank                    | Run everything
+`-i`/`--include`    | String/Array                     | Include specific lints or statistics
+`-i`/`--exclude`    | String/Array                     | Exclude specific lints or statistics
+`-c`/`--config`     | String                           | Path to config file
+`-fp`/`--filepaths` | String/Array                     | Space-separated path(s) to files
+`-u`/`--urls`       | String/Array                     | Statistics only - Space-separated path(s) to relative URLs
+`-d`/`--domain`     | String                           | Statistics only - Web address (prepended to paths)
+`-po`/`--port`      | String/Numeric                   | Statistics only - Port to use if required (appended to domain)
+
+
+* Lint tasks can accept glob notation, i.e. `**/*.scss`
+* Arrays are space-separated, i.e. `--urls=/ /about`
+
+### Commands
+
+Command               | Description
+----------------------|---------------------------
+`install`             | Installs node dependencies
+`frontend`            | Runs all front-end lints
+`backend`             | Runs all back-end lints
+`statistics`          | Runs all statistics
+
+### Git Examples
+
+`$ maximus -g working` 
+
+Default. Lints based on your working directory
+
+`$ maximus -g last` 
+
+Lints based on the previous commit by `HEAD^`
+
+`$ maximus -g master`
+
+Lints based on the commit on the master branch
+
+`$ maximus -g d96a8e23`
+
+Lints based on commit d96a8e23
+
+## Lint syntax
+
+When adding new lints, the JSON output should obey the following format:
+
+```
+[ <filename String>: {
+  linter: <test_name String>
+  severity: <warning | error | convention | refactor String>
+  reason: <explaination String>
+  column: <position Integer>
+  line: <position Integer>
+} ]
+```
+
+## Notes
+
+If calling Maximus::Wraith from a script, please see the note in lib/statistics/wraith.rb#result
